@@ -3,7 +3,7 @@ import React from "react";
 // import Home from "@/views/Home";
 import { Navigate } from "react-router-dom";
 
-const Login = React.lazy(() => import("../views/Login"));
+const Login = React.lazy(() => import("../views/Login/Login"));
 const Home = React.lazy(() => import("../views/Home"));
 const Menu = React.lazy(() => import("../views/Menu"));
 const User = React.lazy(() => import("../views/User"));
