@@ -1,6 +1,4 @@
 import React from "react";
-// import About from "@/views/About";
-// import Home from "@/views/Home";
 import { Navigate } from "react-router-dom";
 
 const Login = React.lazy(() => import("../views/Login/Login"));

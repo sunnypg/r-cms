@@ -12,6 +12,10 @@ const Login = () => {
     initLoginBg();
     getCaptchaImg();
     window.onresize = () => initLoginBg();
+
+    return () => {
+      window.onresize = null;
+    };
   }, []);
 
   // 获取用户输入的信息
@@ -58,7 +62,7 @@ const Login = () => {
       // 2、保存token
       localStorage.setItem("lege-react-management-token", loginAPIRes.token);
       // 3、跳转到/page1
-      navigateTo("/page1");
+      navigateTo("/");
       // 4、删除本地保存中的uuid
       localStorage.removeItem("uuid");
     }
