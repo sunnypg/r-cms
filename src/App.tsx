@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { useRoutes, useLocation, useNavigate } from 'react-router-dom'
 import router from './router'
 import { message } from 'antd'
@@ -56,7 +56,9 @@ function App() {
       {/* 占位符  类似于vue里的router-view */}
       {/* <Outlet></Outlet> */}
       {/* {useRoutes(routes)} */}
-      <BeforeRouterEnter></BeforeRouterEnter>
+      <Suspense fallback={<div>Loading...</div>}>
+        <BeforeRouterEnter></BeforeRouterEnter>
+      </Suspense>
     </div>
   )
 }

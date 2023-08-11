@@ -1,27 +1,23 @@
-import {
-  legacy_createStore,
-  combineReducers,
-  compose,
-  applyMiddleware,
-} from "redux";
-import reduxThunk from "redux-thunk";
-import login from "./login/reducer";
-import main from "./main/reducer";
+import { configureStore } from '@reduxjs/toolkit'
+import loginReducer from './modules/login'
+import { useSelector, useDispatch, TypedUseSelectorHook, shallowEqual } from 'react-redux'
 
-// 组合各个模块的reducer
-const reducers = combineReducers({
-  login,
-  main,
-});
+const store = configureStore({
+  reducer: {
+    login: loginReducer
+  }
+})
 
-// 判断有没有__REDUX_DEVTOOLS_EXTENSION_COMPOSE__这个模块
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-  : compose; //rt
+// 给state指定类型
+type getStateType = typeof store.getState
 
-// 把仓库数据，浏览器redux-dev-tools，还有reduxThunk插件关联在store中
-const store = legacy_createStore(
-  reducers,
-  composeEnhancers(applyMiddleware(reduxThunk))
-);
-export default store;
+type stateType = ReturnType<getStateType>
+type dispatchType = typeof store.dispatch
+
+// useAppSelector 的 hook
+export const useAppSelector: TypedUseSelectorHook<stateType> = useSelector
+
+export const useAppDispatch: () => dispatchType = useDispatch
+export const appShallowEqual = shallowEqual
+
+export default store
