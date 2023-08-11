@@ -20,7 +20,6 @@ const Home: React.FC<IProps> = memo(() => {
   )
 
   const dispatch = useAppDispatch()
-
   function changeUser() {
     dispatch(changeUserAction('哈哈哈哈哈哈'))
   }

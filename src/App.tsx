@@ -36,7 +36,7 @@ function BeforeRouterEnter() {
     3、其余的都可以正常放行
   */
   const location = useLocation()
-  const token = localStorage.getItem('lege-react-management-token')
+  const token = localStorage.getItem('scrm_token')
   //1、如果访问的是登录页面， 并且有token， 跳转到首页
   if (location.pathname === '/login' && token) {
     // 这里不能直接用 useNavigate 来实现跳转 ，因为需要BeforeRouterEnter是一个正常的JSX组件
