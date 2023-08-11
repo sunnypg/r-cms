@@ -30,7 +30,7 @@ const View: React.FC = () => {
             background: "rgba(255, 255, 255,0.3)",
           }}
         >
-          logo
+          合数科技
         </div>
         <MainMenu />
       </Sider>
