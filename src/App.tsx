@@ -2,6 +2,7 @@ import { useEffect, Suspense } from 'react'
 import { useRoutes, useLocation, useNavigate } from 'react-router-dom'
 import router from './router'
 import { message } from 'antd'
+import { myLocalStorage } from './utils/storage'
 
 // 去往登录页的组件
 function ToLogin() {
@@ -36,7 +37,7 @@ function BeforeRouterEnter() {
     3、其余的都可以正常放行
   */
   const location = useLocation()
-  const token = localStorage.getItem('scrm_token')
+  const token = myLocalStorage.getStorage('scrm_token')
   //1、如果访问的是登录页面， 并且有token， 跳转到首页
   if (location.pathname === '/login' && token) {
     // 这里不能直接用 useNavigate 来实现跳转 ，因为需要BeforeRouterEnter是一个正常的JSX组件

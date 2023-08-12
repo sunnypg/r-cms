@@ -2,7 +2,7 @@ import { lazy } from 'react'
 import { Navigate, RouteObject } from 'react-router-dom'
 
 const Login = lazy(() => import('../views/Login/Login'))
-const Home = lazy(() => import('../views/Home'))
+const Home = lazy(() => import('../views/Home/Home'))
 const Menu = lazy(() => import('../views/Menu'))
 const User = lazy(() => import('../views/User'))
 const Role = lazy(() => import('../views/Role'))

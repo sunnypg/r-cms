@@ -1,9 +1,9 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { MyRequestConfig } from './type'
-import { myLocalStorage } from '@/utils/storage'
 import { message } from 'antd'
 import { TIME_OUT } from '../config'
+import { myLocalStorage } from '@/utils/storage'
 
 /**
  *  1.对拦截器进行精细控制
@@ -64,7 +64,7 @@ class MyRequest {
           switch (err.response.status) {
             case 415:
               // 缺少令牌
-              myLocalStorage.deleteStorage('token')
+              myLocalStorage.deleteStorage('scrm_token')
               message.warning({
                 content: err.response.data.message,
                 onClose: function () {

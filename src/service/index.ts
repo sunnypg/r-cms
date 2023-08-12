@@ -10,6 +10,7 @@ const myRequest = new MyRequest({
     // 请求成功
     requestSuccessFn: (config) => {
       const token = myLocalStorage.getStorage('scrm_token')
+
       if (config.headers && token) {
         config.headers.Authorization = token
       }
