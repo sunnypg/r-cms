@@ -1,65 +1,48 @@
-import React, { useState } from 'react'
-import { FileOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons'
+import { memo, useState } from 'react'
+import type { FC, ReactNode } from 'react'
+import { UserOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Menu } from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { appShallowEqual, useAppSelector } from '@/store'
+import { myLocalStorage } from '@/utils/storage'
+
+interface IProps {
+  children?: ReactNode
+  setBreadcrumbInfo: any
+}
 
 type MenuItem = Required<MenuProps>['items'][number]
 
-const items: MenuItem[] = [
-  {
-    label: '系统管理',
-    key: '/system',
-    icon: <UserOutlined />,
-    children: [
-      {
-        label: '菜单管理',
-        key: '/menu'
-      },
-      {
-        label: '用户管理',
-        key: '/user'
-      },
-      {
-        label: '角色管理',
-        key: '/role'
-      },
-      {
-        label: '权限管理',
-        key: '/perm'
-      },
-      {
-        label: '部门管理',
-        key: '/dept'
-      }
-    ]
-  },
-  {
-    label: '商品管理',
-    key: '/goods',
-    icon: <TeamOutlined />,
-    children: [
-      {
-        label: '商品信息',
-        key: '/goodsInfo'
-      },
-      {
-        label: '订单信息',
-        key: '/order'
-      }
-    ]
-  },
-  {
-    label: '操作日志',
-    key: '/log',
-    icon: <FileOutlined />
-  }
-]
-
-const Comp: React.FC = () => {
+const Comp: FC<IProps> = memo((props) => {
   const navigateTo = useNavigate()
   const currentRoute = useLocation()
   let firstOpenKey: string = ''
+
+  const { initInfo } = useAppSelector(
+    (state) => ({
+      initInfo: state.login.initInfo
+    }),
+    appShallowEqual
+  )
+  const items: MenuItem[] = []
+  for (const menu of initInfo.menu) {
+    const children = []
+    if (menu.children) {
+      for (const subMenu of menu.children) {
+        children.push({
+          label: subMenu.name,
+          key: subMenu.path
+        })
+      }
+    }
+    items.push({
+      label: menu.name,
+      key: menu.path,
+      icon: <UserOutlined />,
+      children
+    })
+  }
 
   function finKey(obj: { key: string }) {
     return obj.key === currentRoute.pathname
@@ -80,8 +63,10 @@ const Comp: React.FC = () => {
     setOpenKeys([keys[keys.length - 1]])
   }
 
-  const menuClick = (e: { key: string }) => {
-    navigateTo(e.key)
+  const menuClick = ({ key, keyPath }: { key: string; keyPath: string[] }) => {
+    navigateTo(key)
+    props.setBreadcrumbInfo(keyPath)
+    myLocalStorage.setStorage('keyPath', keyPath)
   }
   return (
     <Menu
@@ -94,6 +79,6 @@ const Comp: React.FC = () => {
       onClick={menuClick}
     />
   )
-}
+})
 
 export default Comp

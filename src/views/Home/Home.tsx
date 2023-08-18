@@ -16,8 +16,8 @@ import {
 } from '@/store/modules/home'
 import { HomeWrapper } from './style'
 import MainHeader from '@/components/main-header'
-import { LocalStorageAction } from '@/store/modules/login'
 import logo from '@/assets/image/logo.svg'
+import { myLocalStorage } from '@/utils/storage'
 
 interface IProps {
   children?: ReactNode
@@ -26,7 +26,6 @@ interface IProps {
 const Home: React.FC<IProps> = memo(() => {
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(LocalStorageAction())
     dispatch(GetMenuByMenu())
     dispatch(GetMenuByPerm())
     dispatch(GetAllDept())
@@ -42,6 +41,8 @@ const Home: React.FC<IProps> = memo(() => {
   const {
     token: { colorBgContainer }
   } = theme.useToken()
+
+  const [breadcrumbInfo, setBreadcrumbInfo] = useState(myLocalStorage.getStorage('keyPath') || [])
 
   return (
     <HomeWrapper>
@@ -62,7 +63,7 @@ const Home: React.FC<IProps> = memo(() => {
             {!collapsed && <h2>客户关系管理系统</h2>}
           </div>
 
-          <MainMenu />
+          <MainMenu setBreadcrumbInfo={setBreadcrumbInfo} />
         </Sider>
         {/* 右边主体 */}
         <Layout>
@@ -70,6 +71,7 @@ const Home: React.FC<IProps> = memo(() => {
           <MainHeader
             setCollapsed={(isCollapsed) => setCollapsed(isCollapsed)}
             collapsed={collapsed}
+            breadcrumbInfo={breadcrumbInfo}
           ></MainHeader>
           {/* 右边内容 */}
           <Content style={{ margin: '16px 16px 0', background: colorBgContainer }}>

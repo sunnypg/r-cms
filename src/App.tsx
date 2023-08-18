@@ -3,6 +3,8 @@ import { useRoutes, useLocation, useNavigate } from 'react-router-dom'
 import router from './router'
 import { message } from 'antd'
 import { myLocalStorage } from './utils/storage'
+import { LocalStorageAction } from '@/store/modules/login'
+import { useAppDispatch } from './store'
 
 // 去往登录页的组件
 function ToLogin() {
@@ -52,6 +54,9 @@ function BeforeRouterEnter() {
 }
 
 function App() {
+  // 用户刷新时在路由守卫之前更新缓存数据
+  const dispatch = useAppDispatch()
+  dispatch(LocalStorageAction())
   return (
     <div className="app">
       {/* 占位符  类似于vue里的router-view */}

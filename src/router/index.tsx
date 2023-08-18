@@ -1,16 +1,35 @@
 import { lazy } from 'react'
-import { Navigate, RouteObject } from 'react-router-dom'
+import { RouteObject } from 'react-router-dom'
 
 const Login = lazy(() => import('../views/Login/Login'))
 const Home = lazy(() => import('../views/Home/Home'))
-const Menu = lazy(() => import('../views/Menu'))
-const User = lazy(() => import('../views/User'))
-const Role = lazy(() => import('../views/Role'))
-const Dept = lazy(() => import('../views/Dept'))
-const Goods = lazy(() => import('../views/Goods'))
-const Log = lazy(() => import('../views/Log'))
-const Order = lazy(() => import('../views/Order'))
-const Perms = lazy(() => import('../views/Perms'))
+const Index = lazy(() => import('../views/Index'))
+
+const lazyLoad = (moduleName: string) => {
+  const Module = lazy(() => import(`../views/${moduleName}`))
+  return <Module />
+}
+
+// 根据菜单权限添加路由
+export const mapMenuToRoutes = (userMenus: any[]) => {
+  const addRoutes = []
+  for (const menu of userMenus) {
+    for (const subMenu of menu.children) {
+      addRoutes.push({
+        path: subMenu.path,
+        element: lazyLoad(subMenu.file.replace('View', ''))
+      })
+    }
+  }
+  routes[1].children = [
+    {
+      path: '/',
+      element: <Index />
+    },
+    ...addRoutes
+  ]
+  console.log(routes[1].children)
+}
 
 const routes: RouteObject[] = [
   {
@@ -19,43 +38,11 @@ const routes: RouteObject[] = [
   },
   {
     path: '/',
-    element: <Navigate to="/menu" />
-  },
-  {
-    path: '/',
     element: <Home />,
     children: [
       {
-        path: '/menu',
-        element: <Menu />
-      },
-      {
-        path: '/user',
-        element: <User />
-      },
-      {
-        path: '/role',
-        element: <Role />
-      },
-      {
-        path: '/dept',
-        element: <Dept />
-      },
-      {
-        path: '/goodsInfo',
-        element: <Goods />
-      },
-      {
-        path: '/log',
-        element: <Log />
-      },
-      {
-        path: '/order',
-        element: <Order />
-      },
-      {
-        path: '/perm',
-        element: <Perms />
+        path: '/',
+        element: <Index />
       }
     ]
   }

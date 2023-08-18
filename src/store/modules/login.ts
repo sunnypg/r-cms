@@ -2,6 +2,7 @@ import { InitInfo, Login, Logout, getPersonal } from '@/service/login/login'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { message } from 'antd'
 import { myLocalStorage } from '@/utils/storage'
+import { mapMenuToRoutes } from '@/router'
 
 // 登录
 export const loginRequest = createAsyncThunk('login', async (accountInfo: any, { dispatch }) => {
@@ -56,7 +57,7 @@ export const LocalStorageAction = createAsyncThunk('LocalStorageAction', (arg, {
     dispatch(changeInitInfoAction(initInfo))
 
     // 动态添加路由
-    // dynamicRoute(initInfo.menu)
+    mapMenuToRoutes(initInfo.menu)
   }
 })
 
@@ -65,7 +66,7 @@ async function init(dispatch: any) {
   console.log(initInfo.data)
   dispatch(changeInitInfoAction(initInfo.data))
   // 动态添加路由
-  // dynamicRoute(initInfo.data.menu)
+  mapMenuToRoutes(initInfo.menu)
 }
 
 async function getPerson(dispatch: any) {

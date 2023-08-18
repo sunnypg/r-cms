@@ -65,34 +65,25 @@ class MyRequest {
             case 415:
               // 缺少令牌
               myLocalStorage.deleteStorage('scrm_token')
-              message.warning({
-                content: err.response.data.message,
-                onClose: function () {
-                  over = true
-                  window.location.href = '/login'
-                }
+              message.warning(err.response.data.message, 3, function () {
+                over = true
+                window.location.href = '/login'
               })
               break
             case 401:
             case 403:
             case 500:
-              message.error({
-                content: err.response.data.message,
-                onClose: function () {
-                  over = true
-                }
+              message.error(err.response.data.message, 3, function () {
+                over = true
               })
               break
             case 422:
               for (const i in err.response.data.errors) {
                 Message += err.response.data.errors[i] + ' '
               }
-              message.error({
-                content: Message,
-                onClose: function () {
-                  over = true
-                  Message = ''
-                }
+              message.error(Message, 3, function () {
+                over = true
+                Message = ''
               })
               break
             default:
