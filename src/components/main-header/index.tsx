@@ -8,6 +8,7 @@ import { appShallowEqual, useAppDispatch, useAppSelector } from '@/store'
 import { useNavigate } from 'react-router-dom'
 import Personal from './personal/personal'
 import Password from './password/password'
+import { myLocalStorage } from '@/utils/storage'
 const { Header } = Layout
 
 interface IProps {
@@ -62,6 +63,9 @@ const MainHeader: FC<IProps> = memo((props) => {
       )
     }
   ]
+
+  const pathToMenuNameMap = myLocalStorage.getStorage('pathToMenuNameMap')
+
   return (
     <HeaderWrapper>
       <Header style={{ background: colorBgContainer }}>
@@ -78,8 +82,8 @@ const MainHeader: FC<IProps> = memo((props) => {
           />
           <Breadcrumb
             items={[
-              { title: props.breadcrumbInfo[1]?.replace('/', '') },
-              { title: props.breadcrumbInfo[0]?.replace('/', '') }
+              { title: pathToMenuNameMap[props.breadcrumbInfo[1]] },
+              { title: pathToMenuNameMap[props.breadcrumbInfo[0]] }
             ]}
             style={{ lineHeight: '64px' }}
           ></Breadcrumb>

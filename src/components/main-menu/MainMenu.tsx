@@ -1,23 +1,26 @@
-import { memo, useState } from 'react'
+import { memo, useEffect } from 'react'
 import type { FC, ReactNode } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Menu } from 'antd'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { appShallowEqual, useAppSelector } from '@/store'
-import { myLocalStorage } from '@/utils/storage'
 
 interface IProps {
   children?: ReactNode
   setBreadcrumbInfo: any
+  setActiveKey: any
+  items: any
+  setItems: any
+  openKeys: string[]
+  setOpenKeys: any
+  menuClick: any
 }
 
 type MenuItem = Required<MenuProps>['items'][number]
 
 const Comp: FC<IProps> = memo((props) => {
-  const navigateTo = useNavigate()
   const currentRoute = useLocation()
-  let firstOpenKey: string = ''
 
   const { initInfo } = useAppSelector(
     (state) => ({
@@ -48,6 +51,7 @@ const Comp: FC<IProps> = memo((props) => {
     return obj.key === currentRoute.pathname
   }
 
+  let firstOpenKey: string = ''
   for (let i = 0; i < items.length; i++) {
     if (
       items[i]!['children'] &&
@@ -58,26 +62,26 @@ const Comp: FC<IProps> = memo((props) => {
       break
     }
   }
-  const [openKeys, setOpenKeys] = useState([firstOpenKey])
+  useEffect(() => {
+    props.setOpenKeys([firstOpenKey])
+  }, [firstOpenKey])
+
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
-    setOpenKeys([keys[keys.length - 1]])
+    props.setOpenKeys([keys[keys.length - 1]])
   }
 
-  const menuClick = ({ key, keyPath }: { key: string; keyPath: string[] }) => {
-    navigateTo(key)
-    props.setBreadcrumbInfo(keyPath)
-    myLocalStorage.setStorage('keyPath', keyPath)
-  }
+  useEffect(() => {}, [])
+
   return (
     <Menu
       theme="dark"
       defaultSelectedKeys={[currentRoute.pathname]}
-      openKeys={openKeys}
+      openKeys={props.openKeys}
       onOpenChange={onOpenChange}
       mode="inline"
       items={items}
-      onClick={menuClick}
-    />
+      onClick={props.menuClick}
+    ></Menu>
   )
 })
 

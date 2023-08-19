@@ -33,19 +33,32 @@ const personal: FC<IProps> = memo((props) => {
 
   useEffect(() => {
     for (const key in props.userInfo) {
-      if (key !== 'id' && key !== 'uid' && key !== 'bid') {
+      if (
+        key === 'name' ||
+        key === 'username' ||
+        key === 'ip' ||
+        key === 'login_at' ||
+        key === 'created_at' ||
+        key === 'dept' ||
+        key === 'roles'
+      ) {
         items.push({
-          key,
+          key: key,
           label: keyToLabelMap[key],
           children:
             key === 'roles'
               ? props.userInfo[key].map((item: any) => {
-                  return <Tag color="processing">{item}</Tag>
+                  return (
+                    <Tag key={item.id} color="processing">
+                      {item.cname}
+                    </Tag>
+                  )
                 })
               : props.userInfo[key]
         })
       }
     }
+    console.log(items)
   }, [items])
   return (
     <>

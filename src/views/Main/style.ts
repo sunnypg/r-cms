@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const HomeWrapper = styled.div`
+export const MainWrapper = styled.div`
   .logo {
     display: flex;
     justify-content: space-around;
