@@ -21,15 +21,7 @@ const PageTabs: FC<IProps> = memo((props) => {
   const navigateTo = useNavigate()
   const onChange = (key: string) => {
     const activeItem = props.items.find((item: any) => item.key === key)
-    // console.log(activeItem)
-
-    // props.setBreadcrumbInfo(activeItem.children)
-
     props.menuClick({ key, keyPath: activeItem.children })
-
-    // props.setActiveKey(key)
-    // myLocalStorage.setStorage('activeKey', key)
-    // navigateTo(key)
   }
 
   const remove = (targetKey: TargetKey) => {
@@ -40,7 +32,12 @@ const PageTabs: FC<IProps> = memo((props) => {
       props.setActiveKey(key)
       myLocalStorage.setStorage('activeKey', key)
       navigateTo(key)
+      const activeItem = props.items.find((item: any) => item.key === key)
+      props.menuClick({ key, keyPath: activeItem.children })
+    } else if (newPanes.length == 0) {
+      navigateTo('/')
     }
+
     props.setItems(newPanes)
     myLocalStorage.setStorage('tabsItems', newPanes)
   }
@@ -48,7 +45,6 @@ const PageTabs: FC<IProps> = memo((props) => {
   const onEdit = (targetKey: TargetKey, action: 'add' | 'remove') => {
     if (action === 'remove') {
       remove(targetKey)
-      console.log(targetKey)
     }
   }
 

@@ -5,6 +5,7 @@ import type { MenuProps } from 'antd'
 import { Menu } from 'antd'
 import { useLocation } from 'react-router-dom'
 import { appShallowEqual, useAppSelector } from '@/store'
+import { myLocalStorage } from '@/utils/storage'
 
 interface IProps {
   children?: ReactNode
@@ -68,6 +69,16 @@ const Comp: FC<IProps> = memo((props) => {
 
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     props.setOpenKeys([keys[keys.length - 1]])
+
+    // 正确的菜单项高亮
+    const pathToMenuNameMap = myLocalStorage.getStorage('pathToMenuNameMap')
+    const menuItems = document.getElementsByClassName('ant-menu-item')
+    for (const menuItem of menuItems) {
+      menuItem.classList.remove('ant-menu-item-selected')
+      if (menuItem.innerText === pathToMenuNameMap[currentRoute.pathname]) {
+        menuItem.classList.add('ant-menu-item-selected')
+      }
+    }
   }
 
   useEffect(() => {}, [])

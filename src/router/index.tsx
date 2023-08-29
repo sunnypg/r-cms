@@ -33,7 +33,7 @@ export const mapMenuToRoutes = (userMenus: any[]) => {
     },
     ...addRoutes
   ]
-  console.log(routes[1].children)
+  // console.log(routes[1].children)
 }
 
 const routes: RouteObject[] = [

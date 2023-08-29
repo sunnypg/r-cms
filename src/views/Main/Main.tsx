@@ -53,7 +53,7 @@ const Home: React.FC<IProps> = memo(() => {
   const menuClick = ({ key, keyPath }: { key: string; keyPath: string[] }) => {
     const pathToMenuNameMap = myLocalStorage.getStorage('pathToMenuNameMap')
     const menuItems = document.getElementsByClassName('ant-menu-item')
-
+    // 正确的菜单项高亮
     for (const menuItem of menuItems) {
       menuItem.classList.remove('ant-menu-item-selected')
       if (menuItem.innerText === pathToMenuNameMap[key]) {
@@ -63,6 +63,7 @@ const Home: React.FC<IProps> = memo(() => {
 
     navigateTo(key)
     setBreadcrumbInfo(keyPath)
+    setOpenKeys(keyPath)
     myLocalStorage.setStorage('keyPath', keyPath)
     if (!items.find((pane: any) => pane.key === key)) {
       const newItems = [...items, { label: pathToMenuNameMap[key], children: keyPath, key }]

@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import loginReducer from './modules/login'
 import homeReducer from './modules/home'
+import systemReducer from './modules/system'
 import { useSelector, useDispatch, TypedUseSelectorHook, shallowEqual } from 'react-redux'
 
 const store = configureStore({
   reducer: {
     login: loginReducer,
-    home: homeReducer
+    home: homeReducer,
+    system: systemReducer
   }
 })
 

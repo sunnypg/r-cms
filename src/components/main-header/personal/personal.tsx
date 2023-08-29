@@ -58,7 +58,7 @@ const personal: FC<IProps> = memo((props) => {
         })
       }
     }
-    console.log(items)
+    // console.log(items)
   }, [items])
   return (
     <>
